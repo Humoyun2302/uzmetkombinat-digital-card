@@ -31,7 +31,7 @@ export function ProfileHeader() {
 
       <HeroPortrait />
 
-      <div className="relative z-10 -mt-10 flex flex-col items-center px-5 pb-5 text-center sm:-mt-12 sm:px-6 sm:pb-6">
+      <div className="relative z-10 mt-5 flex flex-col items-center px-5 pb-5 text-center sm:mt-6 sm:px-6 sm:pb-6">
         <div className="max-w-[22rem]">
           <h1 className="font-display text-[1.85rem] font-semibold leading-[0.95] tracking-[0.04em] text-ink sm:text-[2rem]">
             <span className="block">{profile.displayLast}</span>
