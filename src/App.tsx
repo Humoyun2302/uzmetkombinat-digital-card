@@ -9,11 +9,14 @@ import {
   PhoneIcon,
   TelegramIcon,
   WebsiteIcon,
+  WeChatIcon,
 } from '@/components/Icons'
 import { useCopyToast } from '@/hooks/useCopyToast'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 export default function App() {
-  const { copy, visible, message } = useCopyToast()
+  const { t } = useLanguage()
+  const { copy, visible, message } = useCopyToast(t.copied)
 
   return (
     <div className="flex min-h-dvh flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] sm:px-6 sm:py-12 lg:py-16">
@@ -25,16 +28,16 @@ export default function App() {
 
           <section
             className="flex flex-col gap-3 px-4 py-5 sm:px-5"
-            aria-label="Aloqa ma'lumotlari"
+            aria-label={t.contactsSection}
           >
             {profile.phones.map((phone) => (
               <ContactCard
                 key={phone.id}
                 href={phone.href}
-                title={phone.label}
+                title={t.phone}
                 subtitle={phone.display}
                 icon={<PhoneIcon className="h-full w-full" />}
-                ariaLabel={`${phone.label}: ${phone.display}`}
+                ariaLabel={`${t.phone}: ${phone.display}`}
                 copyValue={phone.display}
                 onCopy={copy}
               />
@@ -42,24 +45,32 @@ export default function App() {
 
             <ContactCard
               href={profile.telegram.href}
-              title={profile.telegram.label}
+              title={t.telegram}
               icon={<TelegramIcon className="h-full w-full" />}
-              ariaLabel={`Telegram: ${profile.telegram.display}`}
+              ariaLabel={`${t.telegram}: ${profile.telegram.display}`}
+              external
+            />
+
+            <ContactCard
+              href={profile.wechat.href}
+              title={t.wechat}
+              icon={<WeChatIcon className="h-full w-full" />}
+              ariaLabel={t.wechat}
               external
             />
 
             <ContactCard
               href={profile.email.href}
-              title={profile.email.label}
+              title={t.email}
               icon={<EmailIcon className="h-full w-full" />}
-              ariaLabel={`Email: ${profile.email.display}`}
+              ariaLabel={`${t.email}: ${profile.email.display}`}
             />
 
             <ContactCard
               href={profile.website.href}
-              title={profile.website.label}
+              title={t.website}
               icon={<WebsiteIcon className="h-full w-full" />}
-              ariaLabel={`Veb-sayt: ${profile.website.display}`}
+              ariaLabel={`${t.website}: ${profile.website.display}`}
               external
             />
 

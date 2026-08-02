@@ -45,6 +45,17 @@ export function WebsiteIcon(props: IconProps) {
   )
 }
 
+export function WeChatIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M9.2 4.6C5.7 4.6 2.9 6.9 2.9 9.8c0 1.7 1 3.2 2.6 4.1l-.4 1.7 1.9-1c.6.2 1.3.3 2 .3.2 0 .5 0 .7 0-.1-.4-.2-.9-.2-1.3 0-2.8 2.6-5.1 5.8-5.1.2 0 .5 0 .7.1C14.8 6.3 12.3 4.6 9.2 4.6Z" />
+      <path d="M8.2 8.3a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Zm3.8 0a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Z" />
+      <path d="M18.3 11.2c-2.6 0-4.7 1.7-4.7 3.8 0 1.3.8 2.4 2.1 3.1l-.3 1.2 1.5-.8c.4.1.9.2 1.4.2 2.6 0 4.7-1.7 4.7-3.7s-2.1-3.8-4.7-3.8Z" />
+      <path d="M16.7 14.3a.55.55 0 1 1 0-1.1.55.55 0 0 1 0 1.1Zm2.9 0a.55.55 0 1 1 0-1.1.55.55 0 0 1 0 1.1Z" />
+    </svg>
+  )
+}
+
 export function ChevronIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>

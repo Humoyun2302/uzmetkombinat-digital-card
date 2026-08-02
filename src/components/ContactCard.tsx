@@ -45,7 +45,7 @@ export function ContactCard({
       <span className="min-w-0 flex-1 text-left">
         {subtitle ? (
           <>
-            <span className="block text-[0.82rem] font-medium uppercase tracking-[0.08em] text-muted">
+            <span className="block text-[0.82rem] font-medium tracking-[0.04em] text-muted uppercase">
               {title}
             </span>
             <span className="mt-0.5 block break-all text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[0.98rem]">
@@ -53,7 +53,7 @@ export function ContactCard({
             </span>
           </>
         ) : (
-          <span className="block text-[0.98rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[1rem]">
+          <span className="block text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[0.98rem]">
             {title}
           </span>
         )}

@@ -1,5 +1,6 @@
 import { profile } from '@/data/contact'
 import { ContactSaveIcon } from '@/components/Icons'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 function isAppleMobile() {
   if (typeof navigator === 'undefined') return false
@@ -7,8 +8,9 @@ function isAppleMobile() {
 }
 
 export function SaveContactButton() {
+  const { t } = useLanguage()
+
   const handleSave = () => {
-    // Static .vcf is the most reliable path for iOS Contacts
     if (isAppleMobile()) {
       window.location.assign('/abdullayev.vcf')
       return
@@ -29,10 +31,10 @@ export function SaveContactButton() {
       type="button"
       className="save-contact"
       onClick={handleSave}
-      aria-label="Kontaktni saqlash"
+      aria-label={t.saveContact}
     >
       <ContactSaveIcon className="h-5 w-5 text-orange" />
-      <span>Kontaktni saqlash</span>
+      <span>{t.saveContact}</span>
     </button>
   )
 }

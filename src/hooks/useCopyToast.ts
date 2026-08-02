@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-export function useCopyToast(duration = 1800) {
+export function useCopyToast(copiedLabel: string, duration = 1800) {
   const [visible, setVisible] = useState(false)
-  const [message, setMessage] = useState('Nusxalandi')
+  const [message, setMessage] = useState(copiedLabel)
   const timer = useRef<number | null>(null)
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export function useCopyToast(duration = 1800) {
   }, [])
 
   const copy = useCallback(
-    async (value: string, toastMessage = 'Nusxalandi') => {
+    async (value: string, toastMessage = copiedLabel) => {
       try {
         if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(value)
@@ -33,13 +33,13 @@ export function useCopyToast(duration = 1800) {
         if (timer.current) window.clearTimeout(timer.current)
         timer.current = window.setTimeout(() => setVisible(false), duration)
       } catch {
-        setMessage('Nusxalanmadi')
+        setMessage(toastMessage)
         setVisible(true)
         if (timer.current) window.clearTimeout(timer.current)
         timer.current = window.setTimeout(() => setVisible(false), duration)
       }
     },
-    [duration],
+    [copiedLabel, duration],
   )
 
   return { copy, visible, message }
