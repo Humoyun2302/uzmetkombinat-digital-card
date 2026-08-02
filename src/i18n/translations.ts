@@ -1,6 +1,8 @@
 export type Language = 'uz' | 'ru' | 'zh'
 
 export type TranslationStrings = {
+  displayLast: string
+  displayGiven: string
   position: string
   organization: string
   phone: string
@@ -15,6 +17,8 @@ export type TranslationStrings = {
 
 export const translations: Record<Language, TranslationStrings> = {
   uz: {
+    displayLast: 'ABDULLAYEV',
+    displayGiven: 'BAXODIR TOJIMIRZAYEVICH',
     position: 'Boshqaruv raisi – Bosh Direktori',
     organization: '“O‘ZMETKOMBINAT” AJ',
     phone: 'Qo‘ng‘iroq qilish',
@@ -27,6 +31,8 @@ export const translations: Record<Language, TranslationStrings> = {
     contactsSection: "Aloqa ma'lumotlari",
   },
   ru: {
+    displayLast: 'АБДУЛЛАЕВ',
+    displayGiven: 'БАХОДИР ТОЖИМИРЗАЕВИЧ',
     position: 'Председатель Правления — Генеральный директор',
     organization: 'АО «УЗМЕТКОМБИНАТ»',
     phone: 'Позвонить',
@@ -39,6 +45,8 @@ export const translations: Record<Language, TranslationStrings> = {
     contactsSection: 'Контактная информация',
   },
   zh: {
+    displayLast: 'ABDULLAYEV',
+    displayGiven: 'BAXODIR TOJIMIRZAYEVICH',
     position: '管理委员会主席兼总经理',
     organization: '“UZMETKOMBINAT”股份公司',
     phone: '电话',

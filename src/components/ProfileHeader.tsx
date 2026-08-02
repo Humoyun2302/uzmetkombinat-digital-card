@@ -1,4 +1,3 @@
-import { profile } from '@/data/contact'
 import { TopAccentBar } from '@/components/CorporateDecoration'
 import { HeroPortrait } from '@/components/HeroPortrait'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
@@ -33,10 +32,22 @@ export function ProfileHeader() {
 
       <div className="relative z-10 mt-5 flex flex-col items-center px-5 pb-5 text-center sm:mt-6 sm:px-6 sm:pb-6">
         <div className="max-w-[22rem]">
-          <h1 className="font-display text-[1.85rem] font-semibold leading-[0.95] tracking-[0.04em] text-ink sm:text-[2rem]">
-            <span className="block">{profile.displayLast}</span>
-            <span className="mt-1 block text-[1.35rem] font-medium tracking-[0.035em] text-graphite sm:text-[1.45rem]">
-              {profile.displayGiven}
+          <h1
+            className={cn(
+              'text-[1.85rem] font-semibold leading-[0.95] text-ink sm:text-[2rem]',
+              language === 'ru'
+                ? 'tracking-[0.02em]'
+                : 'font-display tracking-[0.04em]',
+            )}
+          >
+            <span className="block">{t.displayLast}</span>
+            <span
+              className={cn(
+                'mt-1 block text-[1.35rem] font-medium text-graphite sm:text-[1.45rem]',
+                language === 'ru' ? 'tracking-[0.015em]' : 'tracking-[0.035em]',
+              )}
+            >
+              {t.displayGiven}
             </span>
           </h1>
 
