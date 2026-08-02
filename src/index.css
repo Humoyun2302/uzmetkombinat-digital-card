@@ -39,17 +39,23 @@
     min-height: 100dvh;
     font-family: var(--font-sans);
     color: var(--color-ink);
-    background-color: #e8e6e2;
-    background-image:
-      radial-gradient(
-        90% 55% at 50% 0%,
-        rgba(255, 255, 255, 0.85) 0%,
-        transparent 70%
-      ),
-      linear-gradient(180deg, #f2f0ec 0%, #e4e1db 100%);
+    background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  @media (min-width: 640px) {
+    body {
+      background-color: #e8e6e2;
+      background-image:
+        radial-gradient(
+          90% 55% at 50% 0%,
+          rgba(255, 255, 255, 0.85) 0%,
+          transparent 70%
+        ),
+        linear-gradient(180deg, #f2f0ec 0%, #e4e1db 100%);
+    }
   }
 
   #root {
@@ -88,7 +94,8 @@
 
 @layer components {
   .page-shell {
-    width: min(100%, 430px);
+    width: 100%;
+    max-width: 430px;
     margin-inline: auto;
   }
 
@@ -96,11 +103,19 @@
     position: relative;
     overflow: hidden;
     background: var(--color-surface);
-    border: 1px solid color-mix(in srgb, var(--color-border) 90%, white);
-    border-radius: 22px;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
-      var(--shadow-card);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  @media (min-width: 640px) {
+    .card-panel {
+      border: 1px solid color-mix(in srgb, var(--color-border) 90%, white);
+      border-radius: 22px;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 20px 50px rgba(30, 36, 48, 0.1);
+    }
   }
 
   .contact-card {

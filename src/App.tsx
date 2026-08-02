@@ -16,9 +16,9 @@ export default function App() {
   const { copy, visible, message } = useCopyToast()
 
   return (
-    <div className="flex min-h-dvh flex-col px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] sm:px-6 sm:py-12 lg:py-16">
-      <div className="page-shell flex flex-1 flex-col justify-center">
-        <article className="card-panel sm:shadow-[0_20px_50px_rgba(30,36,48,0.10)]">
+    <div className="flex min-h-dvh flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] sm:px-6 sm:py-12 lg:py-16">
+      <div className="page-shell flex flex-1 flex-col">
+        <article className="card-panel flex min-h-dvh flex-col sm:min-h-0">
           <ProfileHeader />
 
           <div className="section-rule mx-auto w-[78%]" />

@@ -5,7 +5,7 @@ import { HeroPortrait } from '@/components/HeroPortrait'
 export function ProfileHeader() {
   return (
     <header className="relative">
-      <TopAccentBar className="absolute inset-x-0 top-0 z-20 rounded-t-[22px]" />
+      <TopAccentBar className="absolute inset-x-0 top-0 z-20 sm:rounded-t-[22px]" />
 
       <div className="relative z-10 flex flex-col items-center px-5 pb-4 pt-5 text-center sm:px-6 sm:pt-6">
         <img

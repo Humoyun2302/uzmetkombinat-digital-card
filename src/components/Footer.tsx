@@ -1,10 +1,9 @@
 import { profile } from '@/data/contact'
-import { CorporateDecoration } from '@/components/CorporateDecoration'
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-border/80 px-5 pb-7 pt-6 sm:px-6">
-      <div className="relative z-10 flex flex-col items-center gap-2 text-center">
+    <footer className="border-t border-border/80 px-5 pb-7 pt-6 sm:px-6">
+      <div className="flex flex-col items-center gap-2 text-center">
         <img
           src="/logo.png"
           alt=""
@@ -25,8 +24,6 @@ export function Footer() {
           {profile.website.display}
         </a>
       </div>
-
-      <CorporateDecoration size="lg" className="-bottom-1 -right-1" />
     </footer>
   )
 }
