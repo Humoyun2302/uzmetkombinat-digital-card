@@ -43,28 +43,21 @@ export default function App() {
             <ContactCard
               href={profile.telegram.href}
               title={profile.telegram.label}
-              subtitle={profile.telegram.display}
               icon={<TelegramIcon className="h-full w-full" />}
               ariaLabel={`Telegram: ${profile.telegram.display}`}
               external
-              copyValue={profile.telegram.copyValue}
-              onCopy={copy}
             />
 
             <ContactCard
               href={profile.email.href}
               title={profile.email.label}
-              subtitle={profile.email.display}
               icon={<EmailIcon className="h-full w-full" />}
               ariaLabel={`Email: ${profile.email.display}`}
-              copyValue={profile.email.copyValue}
-              onCopy={copy}
             />
 
             <ContactCard
               href={profile.website.href}
               title={profile.website.label}
-              subtitle={profile.website.display}
               icon={<WebsiteIcon className="h-full w-full" />}
               ariaLabel={`Veb-sayt: ${profile.website.display}`}
               external

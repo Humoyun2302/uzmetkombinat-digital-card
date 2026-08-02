@@ -5,7 +5,7 @@ import { ChevronIcon, CopyIcon } from '@/components/Icons'
 type ContactCardProps = {
   href: string
   title: string
-  subtitle: string
+  subtitle?: string
   icon: ReactNode
   ariaLabel: string
   external?: boolean
@@ -43,12 +43,20 @@ export function ContactCard({
       </span>
 
       <span className="min-w-0 flex-1 text-left">
-        <span className="block text-[0.82rem] font-medium uppercase tracking-[0.08em] text-muted">
-          {title}
-        </span>
-        <span className="mt-0.5 block break-all text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[0.98rem]">
-          {subtitle}
-        </span>
+        {subtitle ? (
+          <>
+            <span className="block text-[0.82rem] font-medium uppercase tracking-[0.08em] text-muted">
+              {title}
+            </span>
+            <span className="mt-0.5 block break-all text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[0.98rem]">
+              {subtitle}
+            </span>
+          </>
+        ) : (
+          <span className="block text-[0.98rem] font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[1rem]">
+            {title}
+          </span>
+        )}
       </span>
 
       <span className="flex shrink-0 items-center gap-0.5">
@@ -56,7 +64,7 @@ export function ContactCard({
           <button
             type="button"
             className="copy-btn"
-            aria-label={`${subtitle} nusxalash`}
+            aria-label={`${subtitle ?? title} nusxalash`}
             onClick={handleCopy}
           >
             <CopyIcon className="h-[15px] w-[15px]" />
