@@ -40,17 +40,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   })
 
   const setLanguage = useCallback((next: Language) => {
+    // Update UI state first — persistence happens after paint via effect
     setLanguageState(next)
-    try {
-      localStorage.setItem(LANGUAGE_STORAGE_KEY, next)
-    } catch {
-      // Ignore storage access errors
-    }
   }, [])
 
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : language
     document.documentElement.dataset.lang = language
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
+    } catch {
+      // Ignore storage access errors
+    }
   }, [language])
 
   const value = useMemo(

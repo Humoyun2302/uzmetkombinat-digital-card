@@ -23,7 +23,10 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
             type="button"
             className={cn('lang-switcher__btn', active && 'is-active')}
             aria-pressed={active}
-            onClick={() => setLanguage(option.code as Language)}
+            onClick={() => {
+              if (option.code === language) return
+              setLanguage(option.code as Language)
+            }}
           >
             {option.label}
           </button>

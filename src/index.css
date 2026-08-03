@@ -326,9 +326,8 @@
     font-weight: 600;
     letter-spacing: 0.02em;
     line-height: 1;
-    transition:
-      background 160ms ease,
-      color 160ms ease;
+    /* Instant active pill — no background animation (keeps pace with translation swap) */
+    transition: color 100ms ease-out;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -339,6 +338,7 @@
   .lang-switcher__btn.is-active {
     background: var(--color-orange);
     color: #ffffff;
+    transition: none;
   }
 
   html[data-lang='zh'] .lang-switcher__btn {
