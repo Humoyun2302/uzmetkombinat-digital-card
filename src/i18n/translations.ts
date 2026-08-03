@@ -1,4 +1,4 @@
-export type Language = 'uz' | 'ru' | 'zh'
+export type Language = 'uz' | 'ru' | 'en' | 'zh'
 
 export type TranslationStrings = {
   displayLast: string
@@ -44,6 +44,20 @@ export const translations: Record<Language, TranslationStrings> = {
     copied: 'Скопировано',
     contactsSection: 'Контактная информация',
   },
+  en: {
+    displayLast: 'Abdullayev',
+    displayGiven: 'Baxodir Tojimirzayevich',
+    position: 'Chairman of the Board – General Director',
+    organization: '“UZMETKOMBINAT” JSC',
+    phone: 'Call',
+    telegram: 'Telegram',
+    wechat: 'WeChat',
+    email: 'Email',
+    website: 'Official website',
+    saveContact: 'Save contact',
+    copied: 'Copied',
+    contactsSection: 'Contact information',
+  },
   zh: {
     displayLast: 'ABDULLAYEV',
     displayGiven: 'BAXODIR TOJIMIRZAYEVICH',
@@ -66,11 +80,12 @@ export const languageOptions: Array<{
 }> = [
   { code: 'uz', label: 'UZ' },
   { code: 'ru', label: 'RU' },
+  { code: 'en', label: 'EN' },
   { code: 'zh', label: '中文' },
 ]
 
 export const LANGUAGE_STORAGE_KEY = 'preferredLanguage'
 
 export function isLanguage(value: string | null): value is Language {
-  return value === 'uz' || value === 'ru' || value === 'zh'
+  return value === 'uz' || value === 'ru' || value === 'en' || value === 'zh'
 }
