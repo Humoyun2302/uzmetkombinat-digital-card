@@ -4,7 +4,7 @@ export function HeroPortrait() {
   return (
     <div className="hero-portrait">
       <img
-        src="/portrait.png"
+        src="/assets/IMG_20260803_151322_257.jpg"
         alt={profile.fullName}
         className="hero-portrait__image"
         width={655}
