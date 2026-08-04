@@ -25,6 +25,9 @@ export const profile = {
     display: '@UMK_boshqaruv_rayisi',
     href: 'https://t.me/UMK_boshqaruv_rayisi',
   },
+  whatsapp: {
+    href: 'https://wa.me/qr/NLFUWQCFOM7CA1',
+  },
   wechat: {
     href: 'https://u.wechat.com/MMOzaqclBtpaXsYc7PV3UYI?s=2',
   },

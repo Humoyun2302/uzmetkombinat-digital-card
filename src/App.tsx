@@ -10,6 +10,7 @@ import {
   TelegramIcon,
   WebsiteIcon,
   WeChatIcon,
+  WhatsAppIcon,
   WikipediaIcon,
 } from '@/components/Icons'
 import { useCopyToast } from '@/hooks/useCopyToast'
@@ -49,6 +50,14 @@ export default function App() {
               title={t.telegram}
               icon={<TelegramIcon className="h-full w-full" />}
               ariaLabel={`${t.telegram}: ${profile.telegram.display}`}
+              external
+            />
+
+            <ContactCard
+              href={profile.whatsapp.href}
+              title={t.whatsapp}
+              icon={<WhatsAppIcon className="h-full w-full" />}
+              ariaLabel={t.whatsapp}
               external
             />
 

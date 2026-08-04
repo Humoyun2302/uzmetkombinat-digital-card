@@ -45,6 +45,15 @@ export function WebsiteIcon(props: IconProps) {
   )
 }
 
+export function WhatsAppIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M12 3.75a8.25 8.25 0 0 0-7.1 12.45L3.75 20.25l4.2-1.1A8.25 8.25 0 1 0 12 3.75Z" />
+      <path d="M9.4 8.6c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .5.3l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.1.3 0 .4.4.7 1.1 1.4 1.8 1.8.2.1.3.1.4 0l.5-.4c.2-.1.4-.2.6-.1l1.7.7c.3.1.3.3.3.5v.5c0 .2 0 .4-.4.6-.4.2-1 .4-1.6.3-1.5-.2-3.1-1.1-4.3-2.3-1.2-1.2-2-2.8-2.3-4.3-.1-.6.1-1.2.3-1.6Z" />
+    </svg>
+  )
+}
+
 export function WeChatIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>

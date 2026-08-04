@@ -7,6 +7,7 @@ export type TranslationStrings = {
   organization: string
   phone: string
   telegram: string
+  whatsapp: string
   wechat: string
   wikipedia: string
   email: string
@@ -24,6 +25,7 @@ export const translations: Record<Language, TranslationStrings> = {
     organization: '“O‘ZMETKOMBINAT” AJ',
     phone: 'Qo‘ng‘iroq qilish',
     telegram: 'Telegram',
+    whatsapp: 'WhatsApp',
     wechat: 'WeChat',
     wikipedia: 'Vikipediya',
     email: 'Email',
@@ -39,6 +41,7 @@ export const translations: Record<Language, TranslationStrings> = {
     organization: 'АО «УЗМЕТКОМБИНАТ»',
     phone: 'Позвонить',
     telegram: 'Telegram',
+    whatsapp: 'WhatsApp',
     wechat: 'WeChat',
     wikipedia: 'Википедия',
     email: 'Электронная почта',
@@ -54,6 +57,7 @@ export const translations: Record<Language, TranslationStrings> = {
     organization: '“UZMETKOMBINAT” JSC',
     phone: 'Call',
     telegram: 'Telegram',
+    whatsapp: 'WhatsApp',
     wechat: 'WeChat',
     wikipedia: 'Wikipedia',
     email: 'Email',
@@ -69,6 +73,7 @@ export const translations: Record<Language, TranslationStrings> = {
     organization: '“UZMETKOMBINAT”股份公司',
     phone: '电话',
     telegram: 'Telegram',
+    whatsapp: 'WhatsApp',
     wechat: '微信',
     wikipedia: '维基百科',
     email: '电子邮箱',
