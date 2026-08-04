@@ -7,18 +7,35 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { useContent } from '@/content/ContentContext'
 import {
   isLanguage,
-  LANGUAGE_STORAGE_KEY,
-  translations,
+  LANGUAGE_LABELS,
+  LANGUAGES,
   type Language,
-  type TranslationStrings,
-} from '@/i18n/translations'
+} from '@/content/types'
+
+export const LANGUAGE_STORAGE_KEY = 'preferredLanguage'
+
+export const languageOptions = LANGUAGES.map((code) => ({
+  code,
+  label: LANGUAGE_LABELS[code],
+}))
+
+type UiStrings = {
+  displayLast: string
+  displayGiven: string
+  position: string
+  organization: string
+  saveContact: string
+  copied: string
+  contactsSection: string
+}
 
 type LanguageContextValue = {
   language: Language
   setLanguage: (language: Language) => void
-  t: TranslationStrings
+  t: UiStrings
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
@@ -33,34 +50,70 @@ function readStoredLanguage(): Language {
   return 'uz'
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window === 'undefined') return 'uz'
-    return readStoredLanguage()
-  })
+type LanguageProviderProps = {
+  children: ReactNode
+  /** Controlled language for admin preview */
+  language?: Language
+  onLanguageChange?: (language: Language) => void
+}
 
-  const setLanguage = useCallback((next: Language) => {
-    // Update UI state first — persistence happens after paint via effect
-    setLanguageState(next)
-  }, [])
+export function LanguageProvider({
+  children,
+  language: controlledLanguage,
+  onLanguageChange,
+}: LanguageProviderProps) {
+  const { content } = useContent()
+  const [uncontrolledLanguage, setUncontrolledLanguage] = useState<Language>(
+    () => {
+      if (typeof window === 'undefined') return 'uz'
+      return readStoredLanguage()
+    },
+  )
+
+  const language = controlledLanguage ?? uncontrolledLanguage
+
+  const setLanguage = useCallback(
+    (next: Language) => {
+      if (onLanguageChange) {
+        onLanguageChange(next)
+        return
+      }
+      setUncontrolledLanguage(next)
+    },
+    [onLanguageChange],
+  )
 
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : language
     document.documentElement.dataset.lang = language
+    if (controlledLanguage) return
     try {
       localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
     } catch {
       // Ignore storage access errors
     }
-  }, [language])
+  }, [language, controlledLanguage])
+
+  const t = useMemo<UiStrings>(
+    () => ({
+      displayLast: content.translations.displayLast[language],
+      displayGiven: content.translations.displayGiven[language],
+      position: content.translations.position[language],
+      organization: content.translations.organization[language],
+      saveContact: content.translations.saveContact[language],
+      copied: content.translations.copied[language],
+      contactsSection: content.translations.contactsSection[language],
+    }),
+    [content.translations, language],
+  )
 
   const value = useMemo(
     () => ({
       language,
       setLanguage,
-      t: translations[language],
+      t,
     }),
-    [language, setLanguage],
+    [language, setLanguage, t],
   )
 
   return (

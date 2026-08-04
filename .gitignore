@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
 .netlify
 
 # Editor directories and files
@@ -26,3 +29,6 @@ dist-ssr
 
 # Local previews
 preview*.png
+
+# Local CMS writable content (public/content.json remains the static fallback)
+data/content.json

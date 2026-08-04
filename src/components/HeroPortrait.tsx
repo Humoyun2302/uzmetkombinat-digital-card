@@ -1,11 +1,13 @@
-import { profile } from '@/data/contact'
+import { useContent } from '@/content/ContentContext'
 
 export function HeroPortrait() {
+  const { content } = useContent()
+
   return (
     <div className="hero-portrait">
       <img
-        src="/assets/IMG_20260803_151322_257.jpg"
-        alt={profile.fullName}
+        src={content.profile.photoUrl}
+        alt={content.profile.fullName}
         className="hero-portrait__image"
         width={655}
         height={629}

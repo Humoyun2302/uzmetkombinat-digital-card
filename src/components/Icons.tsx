@@ -73,6 +73,51 @@ export function WikipediaIcon(props: IconProps) {
   )
 }
 
+export function InstagramIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <circle cx="12" cy="12" r="3.75" />
+      <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function FacebookIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M14 8.5h2.5V5.8H14c-2.2 0-3.7 1.4-3.7 3.8v1.7H8.2v2.8h2.1V20h3.1v-5.9h2.4l.5-2.8h-2.9V9.8c0-.7.3-1.3 1.6-1.3Z" />
+    </svg>
+  )
+}
+
+export function LinkedInIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="2" />
+      <path d="M8 10.5V16M8 7.8v.2M12 16v-3.2c0-1.2.8-2 1.9-2 1.1 0 1.6.8 1.6 2V16M12 10.5V16" />
+    </svg>
+  )
+}
+
+export function LocationIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" />
+      <circle cx="12" cy="11" r="2.2" />
+    </svg>
+  )
+}
+
+export function LinkIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M10 13a5 5 0 0 0 7.1.2l1.7-1.7a5 5 0 0 0-7.1-7.1L10.2 6" />
+      <path d="M14 11a5 5 0 0 0-7.1-.2L5.2 12.5a5 5 0 0 0 7.1 7.1L14 18" />
+    </svg>
+  )
+}
+
 export function ChevronIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>

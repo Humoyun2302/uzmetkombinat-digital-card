@@ -1,11 +1,13 @@
 import { TopAccentBar } from '@/components/CorporateDecoration'
 import { HeroPortrait } from '@/components/HeroPortrait'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { useContent } from '@/content/ContentContext'
 import { useLanguage } from '@/i18n/LanguageContext'
 import { cn } from '@/utils/cn'
 
 export function ProfileHeader() {
   const { language, t } = useLanguage()
+  const { content } = useContent()
 
   return (
     <header className="relative">
@@ -18,8 +20,8 @@ export function ProfileHeader() {
 
         <div className="mt-3 flex justify-center">
           <img
-            src="/logo.png"
-            alt="O‘ZMETKOMBINAT"
+            src={content.profile.logoUrl}
+            alt={t.organization}
             className="h-auto w-[min(100%,248px)] select-none"
             width={248}
             height={69}

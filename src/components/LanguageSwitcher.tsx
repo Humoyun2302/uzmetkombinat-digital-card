@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn'
-import { useLanguage } from '@/i18n/LanguageContext'
-import { languageOptions, type Language } from '@/i18n/translations'
+import { useLanguage, languageOptions } from '@/i18n/LanguageContext'
+import type { Language } from '@/content/types'
 
 type LanguageSwitcherProps = {
   className?: string

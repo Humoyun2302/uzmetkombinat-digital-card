@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "profile": {
+    "fullName": "Abdullayev Baxodir Tojimirzayevich",
+    "firstName": "Baxodir",
+    "lastName": "Abdullayev",
+    "middleName": "Tojimirzayevich",
+    "photoUrl": "/assets/IMG_20260803_151322_257.jpg",
+    "logoUrl": "/logo.png"
+  },
+  "translations": {
+    "displayLast": {
+      "uz": "ABDULLAYEV",
+      "ru": "АБДУЛЛАЕВ",
+      "en": "Abdullayev",
+      "zh": "ABDULLAYEV"
+    },
+    "displayGiven": {
+      "uz": "BAXODIR TOJIMIRZAYEVICH",
+      "ru": "БАХОДИР ТОЖИМИРЗАЕВИЧ",
+      "en": "Baxodir Tojimirzayevich",
+      "zh": "BAXODIR TOJIMIRZAYEVICH"
+    },
+    "position": {
+      "uz": "Boshqaruv raisi – Bosh Direktori",
+      "ru": "Председатель Правления — Генеральный директор",
+      "en": "Chairman of the Board – General Director",
+      "zh": "管理委员会主席兼总经理"
+    },
+    "organization": {
+      "uz": "“O‘ZMETKOMBINAT” AJ",
+      "ru": "АО «УЗМЕТКОМБИНАТ»",
+      "en": "“UZMETKOMBINAT” JSC",
+      "zh": "“UZMETKOMBINAT”股份公司"
+    },
+    "saveContact": {
+      "uz": "Kontaktni saqlash",
+      "ru": "Сохранить контакт",
+      "en": "Save contact",
+      "zh": "保存联系人"
+    },
+    "copied": {
+      "uz": "Nusxalandi",
+      "ru": "Скопировано",
+      "en": "Copied",
+      "zh": "已复制"
+    },
+    "contactsSection": {
+      "uz": "Aloqa ma'lumotlari",
+      "ru": "Контактная информация",
+      "en": "Contact information",
+      "zh": "联系方式"
+    }
+  },
+  "buttons": [
+    {
+      "id": "phone-1",
+      "icon": "phone",
+      "labels": {
+        "uz": "Qo‘ng‘iroq qilish",
+        "ru": "Позвонить",
+        "en": "Call",
+        "zh": "电话"
+      },
+      "href": "tel:+998507108888",
+      "subtitle": "+998 50 710 88 88",
+      "visible": true,
+      "order": 0
+    },
+    {
+      "id": "phone-2",
+      "icon": "phone",
+      "labels": {
+        "uz": "Qo‘ng‘iroq qilish",
+        "ru": "Позвонить",
+        "en": "Call",
+        "zh": "电话"
+      },
+      "href": "tel:+998957788888",
+      "subtitle": "+998 95 778 88 88",
+      "visible": true,
+      "order": 1
+    },
+    {
+      "id": "telegram",
+      "icon": "telegram",
+      "labels": {
+        "uz": "Telegram",
+        "ru": "Telegram",
+        "en": "Telegram",
+        "zh": "Telegram"
+      },
+      "href": "https://t.me/UMK_boshqaruv_rayisi",
+      "visible": true,
+      "order": 2
+    },
+    {
+      "id": "whatsapp",
+      "icon": "whatsapp",
+      "labels": {
+        "uz": "WhatsApp",
+        "ru": "WhatsApp",
+        "en": "WhatsApp",
+        "zh": "WhatsApp"
+      },
+      "href": "https://wa.me/qr/NLFUWQCFOM7CA1",
+      "visible": true,
+      "order": 3
+    },
+    {
+      "id": "wechat",
+      "icon": "wechat",
+      "labels": {
+        "uz": "WeChat",
+        "ru": "WeChat",
+        "en": "WeChat",
+        "zh": "微信"
+      },
+      "href": "https://u.wechat.com/MMOzaqclBtpaXsYc7PV3UYI?s=2",
+      "visible": true,
+      "order": 4
+    },
+    {
+      "id": "wikipedia",
+      "icon": "wikipedia",
+      "labels": {
+        "uz": "Vikipediya",
+        "ru": "Википедия",
+        "en": "Wikipedia",
+        "zh": "维基百科"
+      },
+      "href": "https://uz.wikipedia.org/wiki/Bahodir_Abdullayev",
+      "visible": true,
+      "order": 5
+    },
+    {
+      "id": "email",
+      "icon": "email",
+      "labels": {
+        "uz": "Email",
+        "ru": "Электронная почта",
+        "en": "Email",
+        "zh": "电子邮箱"
+      },
+      "href": "mailto:B_ABDULLAYEV@UZBEKSTEEL.UZ",
+      "visible": true,
+      "order": 6
+    },
+    {
+      "id": "website",
+      "icon": "website",
+      "labels": {
+        "uz": "Rasmiy veb-sayt",
+        "ru": "Официальный сайт",
+        "en": "Official website",
+        "zh": "官方网站"
+      },
+      "href": "https://www.uzbeksteel.uz",
+      "visible": true,
+      "order": 7
+    }
+  ],
+  "settings": {
+    "showSaveContact": true,
+    "footerWebsiteHref": "https://www.uzbeksteel.uz",
+    "footerWebsiteLabel": "www.uzbeksteel.uz"
+  }
+}

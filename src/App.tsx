@@ -1,107 +1,103 @@
-import { profile } from '@/data/contact'
 import { ProfileHeader } from '@/components/ProfileHeader'
 import { ContactCard } from '@/components/ContactCard'
 import { SaveContactButton } from '@/components/SaveContactButton'
 import { Footer } from '@/components/Footer'
 import { Toast } from '@/components/Toast'
+import { ContactIcon } from '@/content/iconMap'
+import { useContent } from '@/content/ContentContext'
 import {
-  EmailIcon,
-  PhoneIcon,
-  TelegramIcon,
-  WebsiteIcon,
-  WeChatIcon,
-  WhatsAppIcon,
-  WikipediaIcon,
-} from '@/components/Icons'
+  buttonLabel,
+  buttonSubtitle,
+} from '@/content/defaults'
+import { detectActionType, visibleButtons } from '@/content/types'
 import { useCopyToast } from '@/hooks/useCopyToast'
 import { useLanguage } from '@/i18n/LanguageContext'
 
-export default function App() {
-  const { t } = useLanguage()
+type PublicCardProps = {
+  preview?: boolean
+  className?: string
+}
+
+export function PublicCard({ preview = false, className }: PublicCardProps) {
+  const { t, language } = useLanguage()
+  const { content, loading } = useContent()
   const { copy, visible, message } = useCopyToast(t.copied)
+  const buttons = visibleButtons(content.buttons)
 
   return (
-    <div className="flex min-h-dvh flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] sm:px-6 sm:py-12 lg:py-16">
+    <div
+      className={
+        className ??
+        'flex min-h-dvh flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] sm:px-6 sm:py-12 lg:py-16'
+      }
+    >
       <div className="page-shell flex flex-1 flex-col">
-        <article className="card-panel flex min-h-dvh flex-col sm:min-h-0">
-          <ProfileHeader />
-
-          <div className="section-rule mx-auto w-[78%]" />
-
-          <section
-            className="flex flex-col gap-3 px-4 py-5 sm:px-5"
-            aria-label={t.contactsSection}
-          >
-            {profile.phones.map((phone) => (
-              <ContactCard
-                key={phone.id}
-                href={phone.href}
-                title={t.phone}
-                subtitle={phone.display}
-                icon={<PhoneIcon className="h-full w-full" />}
-                ariaLabel={`${t.phone}: ${phone.display}`}
-                copyValue={phone.display}
-                onCopy={copy}
-              />
-            ))}
-
-            <ContactCard
-              href={profile.telegram.href}
-              title={t.telegram}
-              icon={<TelegramIcon className="h-full w-full" />}
-              ariaLabel={`${t.telegram}: ${profile.telegram.display}`}
-              external
-            />
-
-            <ContactCard
-              href={profile.whatsapp.href}
-              title={t.whatsapp}
-              icon={<WhatsAppIcon className="h-full w-full" />}
-              ariaLabel={t.whatsapp}
-              external
-            />
-
-            <ContactCard
-              href={profile.wechat.href}
-              title={t.wechat}
-              icon={<WeChatIcon className="h-full w-full" />}
-              ariaLabel={t.wechat}
-              external
-            />
-
-            <ContactCard
-              href={profile.wikipedia.href}
-              title={t.wikipedia}
-              icon={<WikipediaIcon className="h-full w-full" />}
-              ariaLabel={t.wikipedia}
-              external
-            />
-
-            <ContactCard
-              href={profile.email.href}
-              title={t.email}
-              icon={<EmailIcon className="h-full w-full" />}
-              ariaLabel={`${t.email}: ${profile.email.display}`}
-            />
-
-            <ContactCard
-              href={profile.website.href}
-              title={t.website}
-              icon={<WebsiteIcon className="h-full w-full" />}
-              ariaLabel={`${t.website}: ${profile.website.display}`}
-              external
-            />
-
-            <div className="pt-1">
-              <SaveContactButton />
+        <article
+          className={
+            preview
+              ? 'card-panel flex flex-col overflow-hidden'
+              : 'card-panel flex min-h-dvh flex-col sm:min-h-0'
+          }
+        >
+          {loading && !preview ? (
+            <div className="flex flex-1 items-center justify-center px-6 py-20 text-sm text-muted">
+              Loading…
             </div>
-          </section>
+          ) : (
+            <>
+              <ProfileHeader />
 
-          <Footer />
+              <div className="section-rule mx-auto w-[78%]" />
+
+              <section
+                className="flex flex-col gap-3 px-4 py-5 sm:px-5"
+                aria-label={t.contactsSection}
+              >
+                {buttons.map((button) => {
+                  const action = detectActionType(button.href)
+                  const label = buttonLabel(button, language)
+                  const subtitle =
+                    action === 'phone' ? buttonSubtitle(button) : undefined
+                  const external = action === 'external'
+
+                  return (
+                    <ContactCard
+                      key={button.id}
+                      href={button.href}
+                      title={label}
+                      subtitle={subtitle}
+                      icon={
+                        <ContactIcon
+                          id={button.icon}
+                          className="h-full w-full"
+                        />
+                      }
+                      ariaLabel={subtitle ? `${label}: ${subtitle}` : label}
+                      external={external}
+                      copyValue={action === 'phone' ? subtitle : undefined}
+                      onCopy={action === 'phone' ? copy : undefined}
+                    />
+                  )
+                })}
+
+                {content.settings.showSaveContact ? (
+                  <div className="pt-1">
+                    <SaveContactButton />
+                  </div>
+                ) : null}
+              </section>
+
+              <Footer />
+            </>
+          )}
         </article>
       </div>
 
-      <Toast message={message} visible={visible} />
+      {!preview ? <Toast message={message} visible={visible} /> : null}
     </div>
   )
+}
+
+export default function App() {
+  return <PublicCard />
 }
