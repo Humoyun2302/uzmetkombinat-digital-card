@@ -1,0 +1,14 @@
+---
+description: Always commit, push, and deploy after completing requested changes
+alwaysApply: true
+---
+
+# Always Push and Deploy
+
+After completing any requested code change on this project:
+
+1. Create a git commit (follow the repo commit-message style).
+2. Push to `origin` on the current branch (`git push -u origin HEAD` if needed).
+3. Rely on Netlify auto-deploy from the pushed commit (`netlify.toml` build).
+
+Do this without waiting to be asked again. Do not force-push to main/master.
