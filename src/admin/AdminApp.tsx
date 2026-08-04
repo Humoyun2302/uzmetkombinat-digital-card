@@ -25,17 +25,6 @@ import { LanguageProvider } from '@/i18n/LanguageContext'
 import { PublicCard } from '@/App'
 import { cn } from '@/utils/cn'
 
-type Section = 'profile' | 'languages' | 'buttons' | 'settings'
-
-function readFileAsDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result))
-    reader.onerror = () => reject(new Error('Failed to read file'))
-    reader.readAsDataURL(file)
-  })
-}
-
 function LocalizedFields({
   label,
   value,
@@ -90,10 +79,8 @@ function LoginPage({ onSuccess }: { onSuccess: (token: string) => void }) {
     <div className="admin-login">
       <form className="admin-login__card" onSubmit={handleSubmit}>
         <p className="admin-kicker">Admin</p>
-        <h1>Digital card CMS</h1>
-        <p className="admin-login__hint">
-          Sign in to manage profile, languages, and contact buttons.
-        </p>
+        <h1>Contact buttons</h1>
+        <p className="admin-login__hint">Sign in to manage Taplink contact buttons.</p>
 
         <label className="admin-field">
           <span>Username</span>
@@ -218,7 +205,6 @@ function AdminDashboard({
   token: string
   onLogout: () => void
 }) {
-  const [section, setSection] = useState<Section>('profile')
   const [draft, setDraft] = useState<CardContent>(() => cloneContent(defaultContent))
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -246,13 +232,18 @@ function AdminDashboard({
     }
   }, [])
 
+  const sortedButtons = useMemo(() => sortButtons(draft.buttons), [draft.buttons])
+
   const editingButton = useMemo(
-    () => draft.buttons.find((button) => button.id === editingId) ?? null,
-    [draft.buttons, editingId],
+    () => sortedButtons.find((button) => button.id === editingId) ?? null,
+    [sortedButtons, editingId],
   )
 
-  const updateDraft = (updater: (current: CardContent) => CardContent) => {
-    setDraft((current) => updater(current))
+  const updateButtons = (updater: (buttons: ContactButton[]) => ContactButton[]) => {
+    setDraft((current) => ({
+      ...current,
+      buttons: updater(current.buttons),
+    }))
     setStatus(null)
   }
 
@@ -279,18 +270,15 @@ function AdminDashboard({
   }
 
   const moveButton = (id: string, direction: -1 | 1) => {
-    updateDraft((current) => {
-      const buttons = sortButtons(current.buttons)
-      const index = buttons.findIndex((button) => button.id === id)
+    updateButtons((buttons) => {
+      const ordered = sortButtons(buttons)
+      const index = ordered.findIndex((button) => button.id === id)
       const target = index + direction
-      if (index < 0 || target < 0 || target >= buttons.length) return current
-      const next = [...buttons]
+      if (index < 0 || target < 0 || target >= ordered.length) return buttons
+      const next = [...ordered]
       const [item] = next.splice(index, 1)
       next.splice(target, 0, item)
-      return {
-        ...current,
-        buttons: next.map((button, order) => ({ ...button, order })),
-      }
+      return next.map((button, order) => ({ ...button, order }))
     })
   }
 
@@ -303,12 +291,8 @@ function AdminDashboard({
       visible: true,
       order: draft.buttons.length,
     }
-    updateDraft((current) => ({
-      ...current,
-      buttons: [...current.buttons, button],
-    }))
+    updateButtons((buttons) => [...buttons, button])
     setEditingId(button.id)
-    setSection('buttons')
   }
 
   if (loading) {
@@ -316,34 +300,15 @@ function AdminDashboard({
   }
 
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
+    <div className="admin-shell admin-shell--simple">
+      <header className="admin-topbar">
         <div>
           <p className="admin-kicker">O‘ZMETKOMBINAT</p>
-          <h1 className="admin-sidebar__title">Card admin</h1>
+          <h1 className="admin-sidebar__title">Contact buttons</h1>
         </div>
-
-        <nav className="admin-nav">
-          {(
-            [
-              ['profile', 'Profile'],
-              ['languages', 'Languages'],
-              ['buttons', 'Contact buttons'],
-              ['settings', 'Settings'],
-            ] as Array<[Section, string]>
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              className={cn('admin-nav__btn', section === id && 'is-active')}
-              onClick={() => setSection(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="mt-auto flex flex-col gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {status ? <p className="admin-status">{status}</p> : null}
+          {error ? <p className="admin-error">{error}</p> : null}
           <button
             type="button"
             className="admin-btn admin-btn--primary"
@@ -356,356 +321,111 @@ function AdminDashboard({
             Log out
           </button>
         </div>
-      </aside>
+      </header>
 
       <main className="admin-main">
-        <header className="admin-main__header">
-          <div>
-            <h2>
-              {section === 'profile' && 'Profile'}
-              {section === 'languages' && 'Languages'}
-              {section === 'buttons' && 'Contact buttons'}
-              {section === 'settings' && 'Settings'}
-            </h2>
-            <p>Edits appear instantly in the live preview. Click Save to publish.</p>
-          </div>
-          {status ? <p className="admin-status">{status}</p> : null}
-          {error ? <p className="admin-error">{error}</p> : null}
-        </header>
-
         <div className="admin-layout">
           <section className="admin-editor">
-            {section === 'profile' && (
-              <div className="admin-stack">
-                <label className="admin-field">
-                  <span>Full name</span>
-                  <input
-                    value={draft.profile.fullName}
-                    onChange={(event) =>
-                      updateDraft((current) => ({
-                        ...current,
-                        profile: {
-                          ...current.profile,
-                          fullName: event.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </label>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <label className="admin-field">
-                    <span>Last name</span>
-                    <input
-                      value={draft.profile.lastName}
-                      onChange={(event) =>
-                        updateDraft((current) => ({
-                          ...current,
-                          profile: {
-                            ...current.profile,
-                            lastName: event.target.value,
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                  <label className="admin-field">
-                    <span>First name</span>
-                    <input
-                      value={draft.profile.firstName}
-                      onChange={(event) =>
-                        updateDraft((current) => ({
-                          ...current,
-                          profile: {
-                            ...current.profile,
-                            firstName: event.target.value,
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                  <label className="admin-field">
-                    <span>Middle name</span>
-                    <input
-                      value={draft.profile.middleName}
-                      onChange={(event) =>
-                        updateDraft((current) => ({
-                          ...current,
-                          profile: {
-                            ...current.profile,
-                            middleName: event.target.value,
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                </div>
-
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <div className="admin-media">
-                    <div className="admin-label">Profile photo</div>
-                    <img src={draft.profile.photoUrl} alt="Profile preview" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (event) => {
-                        const file = event.target.files?.[0]
-                        if (!file) return
-                        const dataUrl = await readFileAsDataUrl(file)
-                        updateDraft((current) => ({
-                          ...current,
-                          profile: { ...current.profile, photoUrl: dataUrl },
-                        }))
-                      }}
-                    />
-                  </div>
-
-                  <div className="admin-media">
-                    <div className="admin-label">Logo</div>
-                    <img
-                      src={draft.profile.logoUrl}
-                      alt="Logo preview"
-                      className="admin-media__logo"
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (event) => {
-                        const file = event.target.files?.[0]
-                        if (!file) return
-                        const dataUrl = await readFileAsDataUrl(file)
-                        updateDraft((current) => ({
-                          ...current,
-                          profile: { ...current.profile, logoUrl: dataUrl },
-                        }))
-                      }}
-                    />
-                  </div>
-                </div>
+            <div className="admin-stack">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-muted">
+                  Add, reorder, hide, or edit contact buttons. Preview updates instantly.
+                </p>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--primary"
+                  onClick={addButton}
+                >
+                  Add button
+                </button>
               </div>
-            )}
 
-            {section === 'languages' && (
-              <div className="admin-stack">
-                <LocalizedFields
-                  label="Last name (display)"
-                  value={draft.translations.displayLast}
-                  onChange={(displayLast) =>
-                    updateDraft((current) => ({
-                      ...current,
-                      translations: { ...current.translations, displayLast },
-                    }))
-                  }
-                />
-                <LocalizedFields
-                  label="Given names (display)"
-                  value={draft.translations.displayGiven}
-                  onChange={(displayGiven) =>
-                    updateDraft((current) => ({
-                      ...current,
-                      translations: { ...current.translations, displayGiven },
-                    }))
-                  }
-                />
-                <LocalizedFields
-                  label="Position"
-                  value={draft.translations.position}
-                  onChange={(position) =>
-                    updateDraft((current) => ({
-                      ...current,
-                      translations: { ...current.translations, position },
-                    }))
-                  }
-                />
-                <LocalizedFields
-                  label="Organization"
-                  value={draft.translations.organization}
-                  onChange={(organization) =>
-                    updateDraft((current) => ({
-                      ...current,
-                      translations: { ...current.translations, organization },
-                    }))
-                  }
-                />
-              </div>
-            )}
-
-            {section === 'buttons' && (
-              <div className="admin-stack">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="text-sm text-muted">
-                    Add, reorder, hide, or edit contact buttons.
-                  </p>
-                  <button
-                    type="button"
-                    className="admin-btn admin-btn--primary"
-                    onClick={addButton}
-                  >
-                    Add button
-                  </button>
-                </div>
-
-                <div className="admin-button-list">
-                  {sortButtons(draft.buttons).map((button, index) => (
-                    <div key={button.id} className="admin-button-row">
-                      <div className="admin-button-row__icon">
-                        <ContactIcon id={button.icon} className="h-5 w-5" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="truncate font-semibold text-ink">
-                          {button.labels.en || button.labels.uz || 'Button'}
-                        </div>
-                        <div className="truncate text-sm text-muted">
-                          {button.href}
-                        </div>
-                      </div>
-                      <span
-                        className={cn(
-                          'admin-pill',
-                          button.visible ? 'is-on' : 'is-off',
-                        )}
-                      >
-                        {button.visible ? 'Visible' : 'Hidden'}
-                      </span>
-                      <span className="admin-pill">#{index + 1}</span>
-                      <div className="flex flex-wrap gap-1">
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn--ghost"
-                          onClick={() => moveButton(button.id, -1)}
-                        >
-                          Up
-                        </button>
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn--ghost"
-                          onClick={() => moveButton(button.id, 1)}
-                        >
-                          Down
-                        </button>
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn--ghost"
-                          onClick={() =>
-                            updateDraft((current) => ({
-                              ...current,
-                              buttons: current.buttons.map((item) =>
-                                item.id === button.id
-                                  ? { ...item, visible: !item.visible }
-                                  : item,
-                              ),
-                            }))
-                          }
-                        >
-                          {button.visible ? 'Hide' : 'Show'}
-                        </button>
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn--ghost"
-                          onClick={() => setEditingId(button.id)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          className="admin-btn admin-btn--danger"
-                          onClick={() => {
-                            updateDraft((current) => ({
-                              ...current,
-                              buttons: current.buttons
-                                .filter((item) => item.id !== button.id)
-                                .map((item, order) => ({ ...item, order })),
-                            }))
-                            if (editingId === button.id) setEditingId(null)
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
+              <div className="admin-button-list">
+                {sortedButtons.map((button, index) => (
+                  <div key={button.id} className="admin-button-row">
+                    <div className="admin-button-row__icon">
+                      <ContactIcon id={button.icon} className="h-5 w-5" />
                     </div>
-                  ))}
-                </div>
-
-                {editingButton ? (
-                  <ButtonEditor
-                    button={editingButton}
-                    onClose={() => setEditingId(null)}
-                    onChange={(next) =>
-                      updateDraft((current) => ({
-                        ...current,
-                        buttons: current.buttons.map((item) =>
-                          item.id === next.id ? next : item,
-                        ),
-                      }))
-                    }
-                  />
-                ) : null}
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-semibold text-ink">
+                        {button.labels.en || button.labels.uz || 'Button'}
+                      </div>
+                      <div className="truncate text-sm text-muted">{button.href}</div>
+                    </div>
+                    <span
+                      className={cn('admin-pill', button.visible ? 'is-on' : 'is-off')}
+                    >
+                      {button.visible ? 'Visible' : 'Hidden'}
+                    </span>
+                    <span className="admin-pill">#{index + 1}</span>
+                    <div className="flex flex-wrap gap-1">
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--ghost"
+                        onClick={() => moveButton(button.id, -1)}
+                      >
+                        Up
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--ghost"
+                        onClick={() => moveButton(button.id, 1)}
+                      >
+                        Down
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--ghost"
+                        onClick={() =>
+                          updateButtons((buttons) =>
+                            buttons.map((item) =>
+                              item.id === button.id
+                                ? { ...item, visible: !item.visible }
+                                : item,
+                            ),
+                          )
+                        }
+                      >
+                        {button.visible ? 'Hide' : 'Show'}
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--ghost"
+                        onClick={() => setEditingId(button.id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--danger"
+                        onClick={() => {
+                          updateButtons((buttons) =>
+                            buttons
+                              .filter((item) => item.id !== button.id)
+                              .map((item, order) => ({ ...item, order })),
+                          )
+                          if (editingId === button.id) setEditingId(null)
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
 
-            {section === 'settings' && (
-              <div className="admin-stack">
-                <label className="admin-check">
-                  <input
-                    type="checkbox"
-                    checked={draft.settings.showSaveContact}
-                    onChange={(event) =>
-                      updateDraft((current) => ({
-                        ...current,
-                        settings: {
-                          ...current.settings,
-                          showSaveContact: event.target.checked,
-                        },
-                      }))
-                    }
-                  />
-                  <span>Show “Save contact” button</span>
-                </label>
-
-                <label className="admin-field">
-                  <span>Footer website URL</span>
-                  <input
-                    value={draft.settings.footerWebsiteHref}
-                    onChange={(event) =>
-                      updateDraft((current) => ({
-                        ...current,
-                        settings: {
-                          ...current.settings,
-                          footerWebsiteHref: event.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </label>
-
-                <label className="admin-field">
-                  <span>Footer website label</span>
-                  <input
-                    value={draft.settings.footerWebsiteLabel}
-                    onChange={(event) =>
-                      updateDraft((current) => ({
-                        ...current,
-                        settings: {
-                          ...current.settings,
-                          footerWebsiteLabel: event.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </label>
-
-                <LocalizedFields
-                  label="Save contact label"
-                  value={draft.translations.saveContact}
-                  onChange={(saveContact) =>
-                    updateDraft((current) => ({
-                      ...current,
-                      translations: { ...current.translations, saveContact },
-                    }))
+              {editingButton ? (
+                <ButtonEditor
+                  button={editingButton}
+                  onClose={() => setEditingId(null)}
+                  onChange={(next) =>
+                    updateButtons((buttons) =>
+                      buttons.map((item) => (item.id === next.id ? next : item)),
+                    )
                   }
                 />
-              </div>
-            )}
+              ) : null}
+            </div>
           </section>
 
           <aside className="admin-preview">
@@ -755,9 +475,7 @@ export default function AdminApp() {
     ;(async () => {
       const stored = readStoredToken()
       if (!stored) {
-        if (active) {
-          setChecking(false)
-        }
+        if (active) setChecking(false)
         return
       }
       const valid = await verifyAdminToken(stored)
@@ -776,13 +494,7 @@ export default function AdminApp() {
   }
 
   if (!token) {
-    return (
-      <LoginPage
-        onSuccess={(nextToken) => {
-          setToken(nextToken)
-        }}
-      />
-    )
+    return <LoginPage onSuccess={setToken} />
   }
 
   return (

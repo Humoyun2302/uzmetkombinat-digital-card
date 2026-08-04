@@ -14,7 +14,9 @@ Admin CMS: `http://localhost:5173/admin`
 
 ## Admin
 
-Protected at `/admin`. Credentials come from environment variables:
+Protected at `/admin` — contact button manager only.
+
+Credentials come from environment variables:
 
 ```bash
 ADMIN_USERNAME=admin
