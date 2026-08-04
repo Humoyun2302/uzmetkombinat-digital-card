@@ -56,6 +56,14 @@ export function WeChatIcon(props: IconProps) {
   )
 }
 
+export function WikipediaIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M3.5 6.5h2.8l2.6 10.5L12 6.5l3.1 10.5L17.7 6.5h2.8" />
+    </svg>
+  )
+}
+
 export function ChevronIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>

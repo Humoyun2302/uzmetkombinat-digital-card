@@ -10,6 +10,7 @@ import {
   TelegramIcon,
   WebsiteIcon,
   WeChatIcon,
+  WikipediaIcon,
 } from '@/components/Icons'
 import { useCopyToast } from '@/hooks/useCopyToast'
 import { useLanguage } from '@/i18n/LanguageContext'
@@ -56,6 +57,14 @@ export default function App() {
               title={t.wechat}
               icon={<WeChatIcon className="h-full w-full" />}
               ariaLabel={t.wechat}
+              external
+            />
+
+            <ContactCard
+              href={profile.wikipedia.href}
+              title={t.wikipedia}
+              icon={<WikipediaIcon className="h-full w-full" />}
+              ariaLabel={t.wikipedia}
               external
             />
 

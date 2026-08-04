@@ -28,6 +28,9 @@ export const profile = {
   wechat: {
     href: 'https://u.wechat.com/MMOzaqclBtpaXsYc7PV3UYI?s=2',
   },
+  wikipedia: {
+    href: 'https://uz.wikipedia.org/wiki/Bahodir_Abdullayev',
+  },
   email: {
     display: 'B_ABDULLAYEV@UZBEKSTEEL.UZ',
     href: 'mailto:B_ABDULLAYEV@UZBEKSTEEL.UZ',

@@ -8,6 +8,7 @@ export type TranslationStrings = {
   phone: string
   telegram: string
   wechat: string
+  wikipedia: string
   email: string
   website: string
   saveContact: string
@@ -24,6 +25,7 @@ export const translations: Record<Language, TranslationStrings> = {
     phone: 'Qo‘ng‘iroq qilish',
     telegram: 'Telegram',
     wechat: 'WeChat',
+    wikipedia: 'Vikipediya',
     email: 'Email',
     website: 'Rasmiy veb-sayt',
     saveContact: 'Kontaktni saqlash',
@@ -38,6 +40,7 @@ export const translations: Record<Language, TranslationStrings> = {
     phone: 'Позвонить',
     telegram: 'Telegram',
     wechat: 'WeChat',
+    wikipedia: 'Википедия',
     email: 'Электронная почта',
     website: 'Официальный сайт',
     saveContact: 'Сохранить контакт',
@@ -52,6 +55,7 @@ export const translations: Record<Language, TranslationStrings> = {
     phone: 'Call',
     telegram: 'Telegram',
     wechat: 'WeChat',
+    wikipedia: 'Wikipedia',
     email: 'Email',
     website: 'Official website',
     saveContact: 'Save contact',
@@ -66,6 +70,7 @@ export const translations: Record<Language, TranslationStrings> = {
     phone: '电话',
     telegram: 'Telegram',
     wechat: '微信',
+    wikipedia: '维基百科',
     email: '电子邮箱',
     website: '官方网站',
     saveContact: '保存联系人',
