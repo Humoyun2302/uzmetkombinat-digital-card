@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { ProfileHeader } from '@/components/ProfileHeader'
 import { ContactCard } from '@/components/ContactCard'
 import { SaveContactButton } from '@/components/SaveContactButton'
 import { Footer } from '@/components/Footer'
 import { Toast } from '@/components/Toast'
+import { WeChatQrModal } from '@/components/WeChatQrModal'
 import { ContactIcon } from '@/content/iconMap'
 import { useContent } from '@/content/ContentContext'
 import {
@@ -22,6 +24,7 @@ export function PublicCard({ preview = false, className }: PublicCardProps) {
   const { t, language } = useLanguage()
   const { content, loading } = useContent()
   const { copy, visible, message } = useCopyToast(t.copied)
+  const [wechatOpen, setWechatOpen] = useState(false)
   const buttons = visibleButtons(content.buttons)
 
   return (
@@ -58,12 +61,13 @@ export function PublicCard({ preview = false, className }: PublicCardProps) {
                   const label = buttonLabel(button, language)
                   const subtitle =
                     action === 'phone' ? buttonSubtitle(button) : undefined
-                  const external = action === 'external'
+                  const isWeChat = button.id === 'wechat'
+                  const external = action === 'external' && !isWeChat
 
                   return (
                     <ContactCard
                       key={button.id}
-                      href={button.href}
+                      href={isWeChat ? '#wechat-qr' : button.href}
                       title={label}
                       subtitle={subtitle}
                       icon={
@@ -76,6 +80,9 @@ export function PublicCard({ preview = false, className }: PublicCardProps) {
                       external={external}
                       copyValue={action === 'phone' ? subtitle : undefined}
                       onCopy={action === 'phone' ? copy : undefined}
+                      onActivate={
+                        isWeChat ? () => setWechatOpen(true) : undefined
+                      }
                     />
                   )
                 })}
@@ -94,6 +101,12 @@ export function PublicCard({ preview = false, className }: PublicCardProps) {
       </div>
 
       {!preview ? <Toast message={message} visible={visible} /> : null}
+
+      <WeChatQrModal
+        open={wechatOpen}
+        language={language}
+        onClose={() => setWechatOpen(false)}
+      />
     </div>
   )
 }

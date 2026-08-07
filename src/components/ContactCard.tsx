@@ -11,6 +11,7 @@ type ContactCardProps = {
   external?: boolean
   copyValue?: string
   onCopy?: (value: string) => void
+  onActivate?: () => void
   className?: string
 }
 
@@ -23,6 +24,7 @@ export function ContactCard({
   external = false,
   copyValue,
   onCopy,
+  onActivate,
   className,
 }: ContactCardProps) {
   const handleCopy = (event: MouseEvent<HTMLButtonElement>) => {
@@ -31,12 +33,21 @@ export function ContactCard({
     if (copyValue && onCopy) onCopy(copyValue)
   }
 
+  const handleActivate = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!onActivate) return
+    event.preventDefault()
+    onActivate()
+  }
+
   return (
     <a
       href={href}
       className={cn('contact-card', className)}
       aria-label={ariaLabel}
-      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      onClick={handleActivate}
+      {...(external && !onActivate
+        ? { target: '_blank', rel: 'noopener noreferrer' }
+        : {})}
     >
       <span className="contact-icon">
         <span className="h-[22px] w-[22px]">{icon}</span>
